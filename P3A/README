@@ -1,0 +1,13 @@
+NAME: Joseph Lin
+EMAIL: jj.lin42@gmail.com 
+ID: 505111868
+
+FILES INCLUDED:
+    lab3a.c
+        My source code for parsing data represented in EXT2 file system format. It gives summaries about the superblock, group, free blocks, 
+        inodes, and indirect block references.
+    ext2_fs.h
+        The given header file with useful EXT2 data structures and macros. 
+    Makefile
+        Makefile which supports compilation, clean, and creating a tarbell.
+    README

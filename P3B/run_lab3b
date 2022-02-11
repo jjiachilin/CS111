@@ -1,0 +1,9 @@
+# NAME: Joseph Lin
+# EMAIL: jj.lin42@gmail.com
+# ID: 505111868
+
+#! /bin/bash
+
+python lab3b.py $1
+
+exit $?

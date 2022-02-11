@@ -1,0 +1,83 @@
+NAME: Joseph Lin
+EMAIL: jj.lin42@gmail.com
+ID: 505111868
+
+INCLUDED FILES:
+    lab2_add.c
+        My source code for part 1 of the lab which produces a race condition with a simple addition function. It accepts parameters for number of threads, number of iterations and supports
+        yielding CPU to increase the chance of causing a race condition and locking with mutex, spin, and atomic_sync_buildin.  
+    lab2_list.c
+        My source code for part 2 of the lab which produces a race condition with linked list operations. It accepts parameters for number of threads, number of iterationsand locking with \
+        mutex and spin locks.   
+    SortedList.c
+        My implementation of doubly linked list operations which support CPU yielding.
+    SortedList.h
+        Given header file with function prototypes.
+    lab2_add.gp
+        Given script to generate plots for part 1 from a csv file.
+    lab2_list.gp
+        Given script to generate plots for part 2 from a csv file.
+    lab2_add.csv
+        Data generated for part 1.
+    lab2_list.csv
+        Data generated for part 2.
+    lab2_add-1.png 
+        Threads and iterations required to generate a failure (with and without yields)
+    lab2_add-2.png 
+        Average time per operation with and without yields
+    lab2_add-3.png 
+        average time per (single threaded) operation vs. the number of iterations
+    lab2_add-4.png 
+        threads and iterations that can run successfully with yields under each of the synchronization options
+    lab2_add-5.png
+        average time per (protected) operation vs. the number of threads
+    lab2_list-1.png
+        average time per (single threaded) unprotected operation vs. number of iterations (illustrating the correction of the per-operation cost for the list length)
+    lab2_list-2.png
+        threads and iterations required to generate a failure (with and without yields)
+    lab2_list-3.png
+        iterations that can run (protected) without failure
+    lab2_list-4.png
+        (length-adjusted) cost per operation vs the number of threads for the various synchronization options
+    Makefile
+        Makefile that supports build, tests, graphs, clean, and dist
+    gen_data.sh
+        Bash script that generates data for plots
+
+
+Q2.1.1 
+    Why does it take many iterations before errors are seen? Why does a significantly smaller number of iterations so seldom fail?
+        A small number iterations means that the worker function, and therefore the critical section, will be executed for less time, decreasing the chance for the thread to be preempted
+        in the middle of a critical section. Thus, the number of iterations is positively correlated to error rate, as the graph illustrates across different thread counts.
+
+Q2.1.2
+    Why are the --yield runs so much slower? Where is the additional time going? Is it possible to get valid per-operation timings if we are using the --yield option? If so, explain how. 
+    If not, explain why not.
+        Yielding to the OS causes constant context switching between threads which incurs significant overhead. It is not possible to get valid per-operation timings because we can't precisely
+        time the context switches.
+
+Q2.1.3 
+    Why does the average cost per operation drop with increasing iterations? If the cost per operation is a function of the number of iterations, how do we know how many iterations to run 
+    (or what the correct cost is)?
+        Since we measure the cost per operation as the time between creating a thread and joining the thread, as the number of iterations increases, the percentage contribution of creating
+        and joining the thread approaches a constant as we can observe in figure 3. To find the true cost, we could increase the number of iterations until we find the value of convergence.
+
+Q2.1.4
+    Why do all of the options perform similar for low numbers of threads? Why do the three protected operations slow down as a the number of threads rises?
+        With a low number of threads, the locking mechanisms are not invoked as much because it will be less likely that one thread will spend time waiting for a lock to be released.
+        As the number of threads increases, more threads will be preempted in the critical section resulting in greater overhead as the threads spend more time waiting for the lock to be
+        released.
+
+Q2.2.1 
+    Compare the variation in time per mutex-protected operation vs the number of threads in Part-1 (adds) and Part-2 (sorted lists).
+    Comment on the general shapes of the curves, and explain why they have this shape.
+    Comment on the relative rates of increase and differences in the shapes of the curves, and offer an explanation for these differences.
+        In part 1, the time per operation didn't change much as the number of threads increased while it increased more dramatically in part 2. This may be because in the thread worker function in part 1 stays
+        locked for a much smaller amount of time than the costly operations in inserting and deleting items in a linked list in part 2.
+
+Q2.2.2
+    Compare the variation in time per protected operation vs the number of threads for list operations protected by Mutex vs Spin locks. Comment on the general shapes of the curves, and explain 
+    why they have this shape. Comment on the relative rates of increase and differences in the shapes of the curves, and offer an explanation for these differences.
+        The time per operation increase constantly with number of threads for both types of locks. However, the curve for the mutex lock seems to taper off towards the end and the spin lock becomes
+        more costly. This is because spin locks waste CPU time just looping waiting for the lock to be released while mutex locks checks much less frequently. Thus, the simpler implementation of the 
+        spin lock has diminishing returns as the number of threads increases.

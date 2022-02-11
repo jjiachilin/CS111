@@ -1,0 +1,33 @@
+NAME: Joseph Lin
+EMAIL: jj.lin42@gmail.com
+ID: 505111868
+
+Included files:
+    lab0.c: source module to copy stdin to stdout
+
+    Makefile: Makefile that supports compilation with gcc with required flags,
+    file cleaning, building distribution tarbell, smoke tests
+
+    backtrace.png: gdb session showing seg fault with associated stack frame
+
+    breakpoint.png: gdb session showing breakpoint and variable inspection
+
+Smoke-test cases:
+    test that input matches output
+    test for correct exit codes
+        normal execution exit(0)
+        unrecognized argument exit(1)
+        unable to open input file exit(2)
+        unable to create output file exit(3)
+        seg fault exit(4)
+
+References:
+    getopt_long example:
+    https://www.gnu.org/software/libc/manual/html_node/Getopt-Long-Option-Example.html
+    I/O redirection:
+    http://web.cs.ucla.edu/~harryxu/courses/111/winter21/ProjectGuide/fd_juggling.html
+    Reading and writing: 
+    Piazza post #23
+    How to cause seg faults:
+    https://stackoverflow.com/questions/2045314/why-cant-i-cause-a-seg-fault
+

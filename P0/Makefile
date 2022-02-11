@@ -1,0 +1,59 @@
+default:
+	gcc -g -Wall -Wextra -o lab0 lab0.c
+
+clean:
+	rm -f *.tar.gz lab0
+
+dist: lab0.c
+	tar -czvf lab0-505111868.tar.gz lab0.c README Makefile backtrace.png breakpoint.png
+
+check: default matchIO normalExec unrecogizedArgErr fileOpenErr fileWriteErr segFaultErr
+	if [ -s test.log ]; then \
+		cat test.log; \
+	else \
+		echo "All tests passed"; \
+	fi
+
+matchIO:
+	echo "CS111 is very enjoyable" > input.txt; \
+	./lab0 --input=input.txt --output=output.txt;
+	cmp input.txt output.txt;
+	if [[ $$? -ne 0 ]]; then \
+		echo "input and output file don't match" >> test.log; \
+	fi
+	rm -f input.txt output.txt
+
+normalExec:
+	echo "CS111 is very enjoyable" > input.txt; \
+	./lab0 --input=input.txt --output=output.txt
+	if [[ $$? -ne 0 ]]; then \
+		echo "abnormal program exit" >> test.log; \
+	fi
+	rm -f input.txt output.txt
+
+unrecogizedArgErr:
+	./lab0 --badArg 2> /dev/null; \
+	if [[ $$? -ne 1 ]]; then \
+		echo "incorrect exit code for unrecognized argument error" >> test.log; \
+	fi
+
+fileOpenErr:
+	./lab0 --input=badFile 2> /dev/null; \
+	if [[ $$? -ne 2 ]]; then \
+		echo "incorrect exit code for file open error" >> test.log; \
+	fi 
+
+fileWriteErr:
+	touch badFile.txt; \
+	chmod -w badFile.txt; \
+	./lab0 --output=badFile.txt 2> /dev/null; \
+	if [[ $$? -ne 3 ]]; then \
+		echo "incorrect exit code for file write error" >> test.log; \
+	fi
+	rm -f badFile.txt
+
+segFaultErr:
+	./lab0 --segfault --catch 2> /dev/null; \
+	if [[ $$? -ne 4 ]]; then \
+		echo "incorrect exit code for seg fault error" >> test.log; \
+	fi

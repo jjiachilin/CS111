@@ -1,0 +1,15 @@
+NAME: Joseph Lin
+EMAIL: jj.lin42@gmail.com
+ID: 505111868
+
+Included files:
+    lab1a.c
+        Contains source code for project specifications. I tried to make main() as minimal as possible and keeping the bulk of the work to helper functions. 
+        I also centralized system call checks under one function with error codes as macros to make things easier. I didn't want to use global variables, 
+        but for the sake of modularity I think it was a good tradeoff to make. As a high level explanation of the code, the program in shell mode sets the terminal
+        into no echo non-canonical mode and then forks a child process which connects pipes between the terminal and the shell and the shell back to the terminal
+        After this is all accomplished, it executes the shell. We use poll() to manage input sources. Control-D and Control-C cause exits. I definitely had the most
+        trouble managing the pipes and it caused some insidious errors that had me shaking and crying. But it all worked out in the end.
+
+    Makefile
+        Generic makefile that supports compiling with -Wall -Wextra flags, compressing into a tarbell, and cleaning files

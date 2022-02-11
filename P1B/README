@@ -1,0 +1,19 @@
+NAME: Joseph Lin
+EMAIL: jj.lin42@gmail.com
+ID: 505111868
+
+File Descriptions:
+    lab1b_client.c
+        This is a client program that passes inputs from the user to the server program and outputs from the server program to client
+        through a TCP socket. The implementation is based on lab 1a, except we no longer rely on pipes to pass I/O between processes; instead
+        sockets are used to pass I/O between client and server. The compress option supports compression via the zlib package which allows
+        communication to take up less bandwidth. The log option is used to track compression. 
+
+    lab1b_server.c
+        This is the server program that relays I/O from client to server and back through TCP sockets and I/O between the shell and 
+        parent processes through the same pipes we used in lab 1a. The compress option supports compression via the zlib package which 
+        allows communication to take up less bandwidth. 
+
+    Makefile
+        This is a standard makefile that supports compilation (for individual files and all together), cleaning, and archiving relevant 
+        files.

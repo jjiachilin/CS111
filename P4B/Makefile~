@@ -1,0 +1,20 @@
+# NAME: Joseph Lin
+# EMAIL: jj.lin42@gmail.com
+# ID: 505111868
+
+default:
+	if [ "$(uname -r | grep beaglebone)" == "" ]; then \
+		gcc -o lab4b -DDUMMY -Wall -Wextra -g  lab4b.c -lm; \
+	else \
+		gcc -o lab4b -Wall -Wextra -g lab4b.c -lm -lmraa; \
+	fi
+
+check: default
+	echo OFF | ./lab4b --log=log.txt
+	rm -f log.txt
+
+clean:
+	rm -f lab4b-505111868.tar.gz lab4b
+
+dist:
+	tar -czvf lab4b-505111868.tar.gz lab4b.c README Makefile
